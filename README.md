@@ -105,10 +105,12 @@ Skills we'd love to see:
 
 ## Requirements
 
-- macOS or Linux
+- **macOS** or **Linux** (desktop/server—**not** iOS/iPadOS/Android)
 - Node.js 20+
 - [Claude Code](https://claude.ai/download)
 - [Apple Container](https://github.com/apple/container) (macOS) or [Docker](https://docker.com/products/docker-desktop) (macOS/Linux)
+
+> **Note:** "Apple Container" is a macOS technology for running lightweight Linux VMs—it is **not** related to iOS or iPadOS. This project requires a desktop or server operating system.
 
 ## Architecture
 
@@ -138,6 +140,19 @@ On macOS, Apple Container is lightweight, fast, and optimized for Apple silicon.
 **Can I run this on Linux?**
 
 Yes. Run `/setup` and it will automatically configure Docker as the container runtime. Thanks to [@dotsetgreg](https://github.com/dotsetgreg) for contributing the `/convert-to-docker` skill.
+
+**Can I run this on iOS/iPadOS/Android (mobile devices)?**
+
+No. NanoClaw requires a desktop or server operating system (macOS or Linux). The "Apple Container" mentioned in the requirements is a macOS technology for running lightweight Linux VMs—it has nothing to do with iOS or iPadOS. Mobile operating systems don't support the container runtimes needed to run Claude agents securely.
+
+**Can I run this in GitHub Codespaces or other cloud environments?**
+
+Potentially, but with caveats. NanoClaw runs on Linux with Docker, so cloud Linux environments like Codespaces, cloud VMs, or VPS providers could work. However:
+- Codespaces itself runs in a container, so you'd need Docker-in-Docker support
+- WhatsApp QR code authentication may be tricky without a local display
+- You'd need persistent storage to maintain WhatsApp sessions
+
+For cloud deployment, a Linux VPS (DigitalOcean, AWS EC2, etc.) would be more straightforward than Codespaces.
 
 **Is this secure?**
 
