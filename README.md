@@ -105,10 +105,54 @@ Skills we'd love to see:
 
 ## Requirements
 
-- macOS or Linux
+- **macOS** or **Linux** (desktop/server—**not** iOS/iPadOS/Android)
 - Node.js 20+
 - [Claude Code](https://claude.ai/download)
 - [Apple Container](https://github.com/apple/container) (macOS) or [Docker](https://docker.com/products/docker-desktop) (macOS/Linux)
+
+> **Note:** "Apple Container" is a macOS technology for running lightweight Linux VMs—it is **not** related to iOS or iPadOS. This project requires a desktop or server operating system.
+
+## Deployment Options
+
+NanoClaw runs anywhere you have Linux + Docker. Here are your options:
+
+| Platform | Difficulty | Notes |
+|----------|------------|-------|
+| **Local Mac** | Easy | Native with Apple Container or Docker |
+| **Local Linux** | Easy | Docker required |
+| **Google Cloud VM** | Medium | Any Linux VM (e2-micro free tier works) |
+| **AWS EC2** | Medium | Amazon Linux 2 or Ubuntu |
+| **DigitalOcean Droplet** | Medium | $4-6/month droplets work fine |
+| **Azure VM** | Medium | Any Linux VM |
+| **Linode/Vultr/Hetzner** | Medium | Budget-friendly VPS options |
+| **Raspberry Pi** | Medium | Pi 4+ with 4GB RAM, run Docker |
+| **Home server** | Medium | Any Linux box with Docker |
+| **GitHub Codespaces** | Hard | Needs Docker-in-Docker, QR auth tricky |
+
+### Cloud VM Quick Start
+
+For any cloud Linux VM (GCP, AWS, Azure, DigitalOcean, etc.):
+
+```bash
+# 1. Install Docker
+curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker $USER
+# Log out and back in
+
+# 2. Install Node.js 20+
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# 3. Install Claude Code
+npm install -g @anthropic-ai/claude-code
+
+# 4. Clone your fork and setup
+git clone https://github.com/<your-username>/nanoclaw.git
+cd nanoclaw
+claude  # Then run /setup
+```
+
+> **Tip:** For WhatsApp QR authentication on a headless server, the setup displays an ASCII QR code directly in the terminal—just scan it with your phone's WhatsApp app. If you prefer a graphical session, you can use SSH with X11 forwarding or set up VNC.
 
 ## Architecture
 
@@ -138,6 +182,18 @@ On macOS, Apple Container is lightweight, fast, and optimized for Apple silicon.
 **Can I run this on Linux?**
 
 Yes. Run `/setup` and it will automatically configure Docker as the container runtime. Thanks to [@dotsetgreg](https://github.com/dotsetgreg) for contributing the `/convert-to-docker` skill.
+
+**Can I run this on iOS/iPadOS/Android (mobile devices)?**
+
+No. NanoClaw requires a desktop or server operating system (macOS or Linux). The "Apple Container" mentioned in the requirements is a macOS technology for running lightweight Linux VMs—it has nothing to do with iOS or iPadOS. Mobile operating systems don't support the container runtimes needed to run Claude agents securely.
+
+**Can I run this in GitHub Codespaces or other cloud environments?**
+
+Yes! See the [Deployment Options](#deployment-options) section above for a full list. **Cloud VMs are the recommended approach**—Google Cloud, AWS, DigitalOcean, etc. all work great. Codespaces is more complex due to Docker-in-Docker requirements.
+
+**Can I use something other than WhatsApp?**
+
+Yes. The project is designed to be customized. Run `/customize` and tell Claude you want to add or switch to a different channel. There are also skills like `/add-telegram`, `/add-slack`, and `/add-discord` that contributors are building. You could also interact via a simple web interface, CLI, or API—just ask Claude to add what you need.
 
 **Is this secure?**
 
