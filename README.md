@@ -112,6 +112,48 @@ Skills we'd love to see:
 
 > **Note:** "Apple Container" is a macOS technology for running lightweight Linux VMs—it is **not** related to iOS or iPadOS. This project requires a desktop or server operating system.
 
+## Deployment Options
+
+NanoClaw runs anywhere you have Linux + Docker. Here are your options:
+
+| Platform | Difficulty | Notes |
+|----------|------------|-------|
+| **Local Mac** | Easy | Native with Apple Container or Docker |
+| **Local Linux** | Easy | Docker required |
+| **Google Cloud VM** | Medium | Any Linux VM (e2-micro free tier works) |
+| **AWS EC2** | Medium | Amazon Linux 2 or Ubuntu |
+| **DigitalOcean Droplet** | Medium | $4-6/month droplets work fine |
+| **Azure VM** | Medium | Any Linux VM |
+| **Linode/Vultr/Hetzner** | Medium | Budget-friendly VPS options |
+| **Raspberry Pi** | Medium | Pi 4+ with 4GB RAM, run Docker |
+| **Home server** | Medium | Any Linux box with Docker |
+| **GitHub Codespaces** | Hard | Needs Docker-in-Docker, QR auth tricky |
+
+### Cloud VM Quick Start
+
+For any cloud Linux VM (GCP, AWS, Azure, DigitalOcean, etc.):
+
+```bash
+# 1. Install Docker
+curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker $USER
+# Log out and back in
+
+# 2. Install Node.js 20+
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# 3. Install Claude Code
+npm install -g @anthropic-ai/claude-code
+
+# 4. Clone your fork and setup
+git clone https://github.com/<your-username>/nanoclaw.git
+cd nanoclaw
+claude  # Then run /setup
+```
+
+> **Tip:** For WhatsApp QR authentication on a headless server, the setup displays an ASCII QR code directly in the terminal—just scan it with your phone's WhatsApp app. If you prefer a graphical session, you can use SSH with X11 forwarding or set up VNC.
+
 ## Architecture
 
 ```
@@ -147,12 +189,11 @@ No. NanoClaw requires a desktop or server operating system (macOS or Linux). The
 
 **Can I run this in GitHub Codespaces or other cloud environments?**
 
-Potentially, but with caveats. NanoClaw runs on Linux with Docker, so cloud Linux environments like Codespaces, cloud VMs, or VPS providers could work. However:
-- Codespaces itself runs in a container, so you'd need Docker-in-Docker support
-- WhatsApp QR code authentication may be tricky without a local display
-- You'd need persistent storage to maintain WhatsApp sessions
+Yes! See the [Deployment Options](#deployment-options) section above for a full list. **Cloud VMs are the recommended approach**—Google Cloud, AWS, DigitalOcean, etc. all work great. Codespaces is more complex due to Docker-in-Docker requirements.
 
-For cloud deployment, a Linux VPS (DigitalOcean, AWS EC2, etc.) would be more straightforward than Codespaces.
+**Can I use something other than WhatsApp?**
+
+Yes. The project is designed to be customized. Run `/customize` and tell Claude you want to add or switch to a different channel. There are also skills like `/add-telegram`, `/add-slack`, and `/add-discord` that contributors are building. You could also interact via a simple web interface, CLI, or API—just ask Claude to add what you need.
 
 **Is this secure?**
 
